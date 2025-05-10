@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Translator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-xl">
+    <h1 class="text-3xl font-bold mb-6 text-center text-purple-700">🌐 Text Translator</h1>
+    
+    <textarea id="inputText" rows="4" class="w-full p-3 border rounded-xl mb-4" placeholder="Enter your text here..."></textarea>
+    
+    <div class="flex gap-4 mb-4">
+      <select id="sourceLang" class="flex-1 p-2 border rounded-xl">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="es">Spanish</option>
+      </select>
+
+      <select id="targetLang" class="flex-1 p-2 border rounded-xl">
+        <option value="fr">French</option>
+        <option value="de">German</option>
+        <option value="hi">Hindi</option>
+      </select>
+    </div>
+
+    <button onclick="translateText()" class="bg-purple-600 text-white px-4 py-2 rounded-xl hover:bg-purple-700 w-full mb-4">Translate</button>
+    
+    <div id="outputText" class="p-3 bg-gray-100 rounded-xl min-h-[50px] text-lg"></div>
+  </div>
+
+  <script>
+    async function translateText() {
+      const text = document.getElementById('inputText').value;
+      const source = document.getElementById('sourceLang').value;
+      const target = document.getElementById('targetLang').value;
+
+      const res = await fetch('http://127.0.0.1:5000/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, source, target })
+      });
+
+      const data = await res.json();
+      document.getElementById('outputText').innerText = data.translatedText;
+    }
+  </script>
+</body>
+</html>
