@@ -17,5 +17,3 @@ def translate():
     translated = translator.translate(data['text'], src=data['source'], dest=data['target'])
     return jsonify({"translatedText": translated.text})
 
-if __name__ == '__main__':
-    app.run(debug=True)
